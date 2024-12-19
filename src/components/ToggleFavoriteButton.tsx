@@ -1,31 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Book } from "../utils/types";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { toggleFavorite } from "../store/favoritesSlice";
+import { useFavorites } from "../hooks/useFavorites";
 
 interface ToggleFavoriteButtonProps {
   book: Book;
 }
 
 function ToggleFavoriteButton({ book }: ToggleFavoriteButtonProps) {
-  const dispatch = useAppDispatch();
-  const isFavorite = useAppSelector((state) =>
-    state.favorites.favoriteBooks.some(
-      (favBook) => favBook.index === book.index
-    )
-  );
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const isBookFavorite = isFavorite(book);
 
   const handleToggleFavorite = () => {
-    dispatch(toggleFavorite(book));
+    toggleFavorite(book);
   };
 
   return (
     <TouchableOpacity style={styles.button} onPress={handleToggleFavorite}>
       <Ionicons
-        name={isFavorite ? "heart" : "heart-outline"}
+        name={isBookFavorite ? "heart" : "heart-outline"}
         size={24}
-        color={isFavorite ? "#ff4b4b" : "#666"}
+        color={isBookFavorite ? "#ff4b4b" : "#666"}
       />
     </TouchableOpacity>
   );

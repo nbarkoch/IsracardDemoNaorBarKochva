@@ -1,17 +1,23 @@
-import React, { useCallback, useState } from "react";
-import { View, StyleSheet, ListRenderItem, FlatList } from "react-native";
-import { useAppSelector } from "../../hooks/redux";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+} from "react-native";
 import { SearchBar } from "../../components/SearchBar";
 import { RootStackNavigationProp } from "../../navigation/navigations";
 import { useNavigation } from "@react-navigation/native";
 import { Book } from "../../utils/types";
 import BookCardView from "../../components/BookCardView";
 import useSearch from "../../hooks/useSearch";
+import { useFavorites } from "../../hooks/useFavorites";
 
-function FavoritesTab() {
+const FavoritesTab = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
-  const data = useAppSelector((state) => state.favorites.favoriteBooks);
+  const { favorites: data, isLoading } = useFavorites();
 
   const renderItem: ListRenderItem<Book> = useCallback(
     ({ item: book }) => {
@@ -29,6 +35,18 @@ function FavoritesTab() {
     mapper: (b) => `${b.title} ${b.description}`,
   });
 
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          style={styles.container}
+          color={"white"}
+          size="large"
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <SearchBar value={searchInput} onChangeText={setSearchInput} />
@@ -39,7 +57,7 @@ function FavoritesTab() {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

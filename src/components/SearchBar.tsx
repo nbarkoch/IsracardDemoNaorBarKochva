@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 4,
     margin: 16,
   },
   input: {

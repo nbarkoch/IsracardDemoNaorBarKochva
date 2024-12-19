@@ -1,25 +1,75 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
   StyleSheet,
   Text,
-  SafeAreaView,
-  TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
+  ListRenderItem,
 } from "react-native";
 import { RootStackNavigationProp } from "../../navigation/navigations";
+import { useQuery } from "@tanstack/react-query";
+import { HARRY_POTTER_BOOKS_API } from "../../utils/constants";
+import { Book } from "../../utils/types";
+import { fetchJsonData } from "../../utils/network";
+import BookCardView from "../../components/BookCardView";
+
+const getHarryPotterBooks = async (): Promise<Book[]> => {
+  return await fetchJsonData(HARRY_POTTER_BOOKS_API);
+};
 
 function HomeTab() {
   const navigation = useNavigation<RootStackNavigationProp>();
-  const onPress = () => {
-    navigation.navigate("Details", { bookInfo: { name: "" } });
-  };
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [HARRY_POTTER_BOOKS_API],
+    queryFn: getHarryPotterBooks,
+  });
+
+  const renderItem: ListRenderItem<Book> = useCallback(({ item: book }) => {
+    const onPress = () => navigation.navigate("Details", { book });
+    return <BookCardView book={book} onPress={onPress} />;
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          style={styles.container}
+          color={"white"}
+          size="large"
+        />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.container}>
+        <Text>OOps</Text>
+        <Text>Something went wrong</Text>
+        <Text>Try again later..</Text>
+      </View>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text>No Books Are Currently Available</Text>
+        <Text>Try again later..</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onPress}>
-        <Text style={{ textAlign: "center" }}>book info</Text>
-      </TouchableOpacity>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(book) => `${book.index}`}
+      />
     </View>
   );
 }

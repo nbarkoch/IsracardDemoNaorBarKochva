@@ -13,7 +13,7 @@ import { FlashList, ListRenderItem } from "@shopify/flash-list";
 
 interface BookListProps {
   data: Book[] | undefined;
-  isLoading: boolean;
+  isLoading?: boolean;
   isError?: boolean;
   searchMapper?: (book: Book) => string;
 }

@@ -5,12 +5,10 @@ import { useFavorites } from "../../hooks/useFavorites";
 import { BookList } from "../../components/BookList";
 
 const FavoritesTab = () => {
-  const { favorites: data, isLoading } = useFavorites();
-
+  const { favorites } = useFavorites();
   return (
     <BookList
-      data={data}
-      isLoading={isLoading}
+      data={favorites}
       searchMapper={(b) => `${b.title} ${b.description}`}
     />
   );

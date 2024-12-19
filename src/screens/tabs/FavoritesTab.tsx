@@ -13,9 +13,19 @@ import { Book } from "../../utils/types";
 import BookCardView from "../../components/BookCardView";
 import useSearch from "../../hooks/useSearch";
 import { useFavorites } from "../../hooks/useFavorites";
+import { useSort } from "../../hooks/useSort";
+import { sortBookOption } from "../../utils/sortBookOption";
+import {
+  SortButtonGroup,
+  SortDirection,
+  SortOption,
+} from "../../components/SortButtonGroup";
 
 const FavoritesTab = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [sortOption, setSortOption] = useState<SortOption>("title");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
   const { favorites: data, isLoading } = useFavorites();
 
@@ -27,13 +37,29 @@ const FavoritesTab = () => {
     [navigation]
   );
 
-  const [searchInput, setSearchInput] = useState<string>("");
-
   const { filteredData } = useSearch<Book>({
     searchInput,
     data,
     mapper: (b) => `${b.title} ${b.description}`,
   });
+
+  const handleSortChange = (option: SortOption) => {
+    if (option === sortOption) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortOption(option);
+      setSortDirection("asc");
+    }
+  };
+  const toggleSortDirection = () => {
+    setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
+  const sortedData = useSort(
+    filteredData,
+    sortBookOption(sortOption),
+    sortDirection
+  );
 
   if (isLoading) {
     return (
@@ -50,8 +76,14 @@ const FavoritesTab = () => {
   return (
     <View style={styles.container}>
       <SearchBar value={searchInput} onChangeText={setSearchInput} />
+      <SortButtonGroup
+        selectedOption={sortOption}
+        sortDirection={sortDirection}
+        onSortChange={handleSortChange}
+        onDirectionChange={toggleSortDirection}
+      />
       <FlatList
-        data={filteredData}
+        data={sortedData}
         renderItem={renderItem}
         keyExtractor={(book) => `${book.index}`}
       />

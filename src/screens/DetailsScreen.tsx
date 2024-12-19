@@ -12,7 +12,7 @@ import { RootStackParamList } from "../navigation/navigations";
 import ToggleFavoriteButton from "../components/ToggleFavoriteButton";
 import { useTheme } from "../hooks/useTheme";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 interface StatsSectionProps {
   title: string;
@@ -81,7 +81,7 @@ function DetailsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "rgba(0,0,0,0.8)" },
-  cover: { height: height * 0.45, margin: 30 },
+  cover: { margin: 30, height: Math.max(height, width) * 0.45 },
   detailsContainer: {
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,

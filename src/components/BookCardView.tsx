@@ -22,7 +22,11 @@ const BookCardView = ({
 }: BookCardViewProps) => {
   const { colors } = useTheme();
 
-  const themedStyles = useMemo<{ card: ViewStyle; title: TextStyle }>(
+  const themedStyles = useMemo<{
+    card: ViewStyle;
+    title: TextStyle;
+    releaseDate: TextStyle;
+  }>(
     () => ({
       card: {
         backgroundColor: colors.card,
@@ -30,6 +34,9 @@ const BookCardView = ({
       },
       title: {
         color: colors.text,
+      },
+      releaseDate: {
+        color: colors.secondary,
       },
     }),
     [colors.border, colors.card, colors.text]
@@ -53,7 +60,10 @@ const BookCardView = ({
         >
           {title}
         </Text>
-        <Text style={styles.releaseData}> {releaseDate}</Text>
+        <Text style={[styles.releaseData, themedStyles.releaseDate]}>
+          {" "}
+          {releaseDate}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -81,7 +91,6 @@ const styles = StyleSheet.create({
   },
   releaseData: {
     fontSize: 16,
-    color: "grey",
   },
 });
 

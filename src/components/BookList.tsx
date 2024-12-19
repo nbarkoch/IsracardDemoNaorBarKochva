@@ -1,12 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  Text,
-} from "react-native";
+import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackNavigationProp } from "../navigation/navigations";
 import { Book } from "../utils/types";
@@ -16,10 +9,11 @@ import useSearch from "../hooks/useSearch";
 import { SortControl, SortOption, SortDirection } from "./SortControl";
 import { useSort } from "../hooks/useSort";
 import { sortBookOption } from "../utils/sortBookOption";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
 
 interface BookListProps {
   data: Book[] | undefined;
-  isLoading: boolean;
+  isLoading?: boolean;
   isError?: boolean;
   searchMapper?: (book: Book) => string;
 }
@@ -83,9 +77,9 @@ export function BookList({
   if (isError) {
     return (
       <View style={styles.container}>
-        <Text>OOps</Text>
-        <Text>Something went wrong</Text>
-        <Text>Try again later..</Text>
+        <Text style={styles.message}>Oops</Text>
+        <Text style={styles.message}>Something went wrong</Text>
+        <Text style={styles.smallMessage}>Try again later..</Text>
       </View>
     );
   }
@@ -93,8 +87,7 @@ export function BookList({
   if (!data || data.length === 0) {
     return (
       <View style={styles.container}>
-        <Text>No Books Are Currently Available</Text>
-        <Text>Try again later..</Text>
+        <Text style={styles.message}>No Books Are Currently Available</Text>
       </View>
     );
   }
@@ -108,10 +101,11 @@ export function BookList({
         onSortChange={handleSortChange}
         onDirectionChange={toggleSortDirection}
       />
-      <FlatList
+      <FlashList
         data={sortedData}
         renderItem={renderItem}
         keyExtractor={(book) => `${book.index}`}
+        estimatedItemSize={190}
       />
     </View>
   );
@@ -121,5 +115,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+  },
+  message: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "grey",
+    fontWeight: "700",
+  },
+  smallMessage: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "grey",
+    padding: 10,
   },
 });

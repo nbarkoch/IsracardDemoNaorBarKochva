@@ -19,7 +19,9 @@ const BookCardView = ({
         resizeMode="contain"
       />
       <View style={styles.info}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title} ellipsizeMode="tail" numberOfLines={2}>
+          {title}
+        </Text>
         <Text style={styles.releaseData}> {releaseDate}</Text>
       </View>
     </TouchableOpacity>
@@ -30,8 +32,9 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "grey",
+    borderWidth: 0.5,
+    backgroundColor: "#f6f6f6",
+    borderColor: "#d3d3d3",
   },
   info: {
     flexDirection: "column",

@@ -1105,7 +1105,7 @@
   dependencies:
     cross-spawn "^7.0.3"
 
-"@expo/vector-icons@^14.0.0":
+"@expo/vector-icons@^14.0.0", "@expo/vector-icons@~14.0.4":
   version "14.0.4"
   resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-14.0.4.tgz#fa9d4351877312badf91a806598b2f0bab16039a"
   integrity sha512-+yKshcbpDfbV4zoXOgHxCwh7lkE9VVTT5T03OUlBsqfze1PLy6Hi4jp1vSb1GVbY6eskvMIivGVc9SKzIv0oEQ==
@@ -1446,6 +1446,14 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
+"@react-navigation/bottom-tabs@~7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-7.2.0.tgz#5b336b823226647a263b4fe743655462796b6aaf"
+  integrity sha512-1LxjgnbPyFINyf9Qr5d1YE0pYhuJayg5TCIIFQmbcX4PRhX7FKUXV7cX8OzrKXEdZi/UE/VNXugtozPAR9zgvA==
+  dependencies:
+    "@react-navigation/elements" "^2.2.5"
+    color "^4.2.3"
+
 "@react-navigation/core@^7.3.1":
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-7.3.1.tgz#c6d4857fa2dd321d12ca87e200478c38c420f157"
@@ -1466,7 +1474,7 @@
   dependencies:
     color "^4.2.3"
 
-"@react-navigation/native-stack@^7.2.0":
+"@react-navigation/native-stack@~7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-7.2.0.tgz#8aa489f88d662b3543a931b9cb934bb2e09a4893"
   integrity sha512-mw7Nq9qQrGsmJmCTwIIWB7yY/3tWYXvQswx+HJScGAadIjemvytJXm1fcl3+YZ9T9Ym0aERcVe5kDs+ny3X4vA==
@@ -1474,7 +1482,7 @@
     "@react-navigation/elements" "^2.2.5"
     warn-once "^0.1.1"
 
-"@react-navigation/native@^7.0.14":
+"@react-navigation/native@~7.0.14":
   version "7.0.14"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-7.0.14.tgz#b3ee2879038dcf0523d26516af88d3adc549ce5e"
   integrity sha512-Gi6lLw4VOGSWAhmUdJOMauOKGK51/YA1CprjXm91sNfgERWvznqEMw8QmUQx9SEqYfi0LfZhbzpMst09SJ00lw==
@@ -1596,6 +1604,13 @@
   version "15.7.14"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.14.tgz#1433419d73b2a7ebfc6918dcefd2ec0d5cd698f2"
   integrity sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==
+
+"@types/react-navigation@~3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-3.4.0.tgz#d610d13c9162312079a8ca102660143f07432cbf"
+  integrity sha512-Y7F5zU8BTBK8tEOvUqgvwvPZ7+9vnc2UI1vHwJ/9ZJG98TntNv04GWa6lrn4MA4149pqw6cyNw/V49Yd2osAFQ==
+  dependencies:
+    react-navigation "*"
 
 "@types/react@~18.3.12":
   version "18.3.17"
@@ -4634,6 +4649,11 @@ react-native@0.76.5:
     whatwg-fetch "^3.0.0"
     ws "^6.2.3"
     yargs "^17.6.2"
+
+react-navigation@*:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-5.0.0.tgz#a7dd98a6148ba997834ebcf5a5073bdb3d4f4eb3"
+  integrity sha512-ACTzjc4L1ik7rJ092ZhIELBJ/pnoLgRIqWHSKcYcaBASxyjJCgBEDIV5s585HBj55tw25YwNdlj3+d4B4MYWDg==
 
 react-refresh@^0.14.0, react-refresh@^0.14.2:
   version "0.14.2"

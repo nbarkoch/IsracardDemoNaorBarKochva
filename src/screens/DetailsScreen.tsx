@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#1a1a1a",
   },
   statDivider: {
     width: 1,
@@ -122,7 +121,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#4a4a4a",
   },
   titleSection: {
     flexDirection: "row",

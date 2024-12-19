@@ -8,6 +8,7 @@ export const lightTheme = {
     notification: "#FF4B4B",
     secondary: "#666666",
     highlight: "#F8F8F8",
+    placeholder: "#999",
   },
 } as const;
 
@@ -21,6 +22,7 @@ export const darkTheme = {
     notification: "#FF6B6B",
     secondary: "#A0A0A0",
     highlight: "#333333",
+    placeholder: "#999",
   },
 } as const;
 

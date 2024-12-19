@@ -85,9 +85,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     gap: 4,
   },
-  selectedChip: {
-    backgroundColor: "#000",
-  },
   chipText: {
     fontSize: 14,
     fontWeight: "500",

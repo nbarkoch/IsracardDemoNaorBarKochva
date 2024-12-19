@@ -23,7 +23,7 @@ export function SearchBar({ value, onChangeText }: SearchBarProps) {
         value={value}
         onChangeText={onChangeText}
         placeholder="Search books..."
-        placeholderTextColor="#999"
+        placeholderTextColor={colors.placeholder}
         autoCapitalize="none"
         returnKeyType="search"
       />

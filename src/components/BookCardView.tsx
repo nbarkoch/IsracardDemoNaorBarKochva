@@ -25,30 +25,32 @@ const BookCardView = ({
   const themedStyles = useMemo<{ card: ViewStyle; title: TextStyle }>(
     () => ({
       card: {
-        padding: 20,
-        flexDirection: "row",
-        borderWidth: 0.5,
         backgroundColor: colors.card,
         borderColor: colors.border,
       },
       title: {
         color: colors.text,
-        fontWeight: "900",
-        fontSize: 18,
       },
     }),
     [colors.border, colors.card, colors.text]
   );
 
   return (
-    <TouchableOpacity style={themedStyles.card} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.card, themedStyles.card]}
+      onPress={onPress}
+    >
       <Image
         source={{ uri: cover }}
         style={styles.cover}
         resizeMode="contain"
       />
       <View style={styles.info}>
-        <Text style={themedStyles.title} ellipsizeMode="tail" numberOfLines={2}>
+        <Text
+          style={[styles.title, themedStyles.title]}
+          ellipsizeMode="tail"
+          numberOfLines={2}
+        >
           {title}
         </Text>
         <Text style={styles.releaseData}> {releaseDate}</Text>
@@ -62,8 +64,10 @@ const styles = StyleSheet.create({
     padding: 20,
     flexDirection: "row",
     borderWidth: 0.5,
-    backgroundColor: "#f6f6f6",
-    borderColor: "#d3d3d3",
+  },
+  title: {
+    fontWeight: "900",
+    fontSize: 18,
   },
   info: {
     flexDirection: "column",

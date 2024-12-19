@@ -1,5 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { View, StyleSheet, ListRenderItem, FlatList } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ListRenderItem,
+  ActivityIndicator,
+} from "react-native";
 import { useAppSelector } from "../../hooks/redux";
 import { SearchBar } from "../../components/SearchBar";
 import { RootStackNavigationProp } from "../../navigation/navigations";
@@ -7,11 +13,42 @@ import { useNavigation } from "@react-navigation/native";
 import { Book } from "../../utils/types";
 import BookCardView from "../../components/BookCardView";
 import useSearch from "../../hooks/useSearch";
+import { useDispatch } from "react-redux";
+import {
+  FAVORITE_STORAGE_KEY,
+  setFavorites,
+  setLoading,
+} from "../../store/favoritesSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function FavoritesTab() {
+const FavoritesTab = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation<RootStackNavigationProp>();
 
-  const data = useAppSelector((state) => state.favorites.favoriteBooks);
+  const { favoriteBooks: data, isLoadingFromStorage } = useAppSelector(
+    (state) => state.favorites
+  );
+
+  useEffect(() => {
+    const loadFavoritesFromStorage = async () => {
+      dispatch(setLoading(true));
+      try {
+        const storedFavorites = await AsyncStorage.getItem(
+          FAVORITE_STORAGE_KEY
+        );
+        if (storedFavorites) {
+          const favoriteBooks: Book[] = JSON.parse(storedFavorites);
+          dispatch(setFavorites(favoriteBooks));
+        }
+      } catch (error) {
+        console.error("Failed to load favorites from storage", error);
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
+
+    loadFavoritesFromStorage();
+  }, [dispatch]);
 
   const renderItem: ListRenderItem<Book> = useCallback(
     ({ item: book }) => {
@@ -29,6 +66,18 @@ function FavoritesTab() {
     mapper: (b) => `${b.title} ${b.description}`,
   });
 
+  if (isLoadingFromStorage) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator
+          style={styles.container}
+          color={"white"}
+          size="large"
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <SearchBar value={searchInput} onChangeText={setSearchInput} />
@@ -39,7 +88,7 @@ function FavoritesTab() {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import favoritesReducer from "./favoritesSlice";
+import favoritesReducer, { setFavorites } from "./favoritesSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const store = configureStore({
   reducer: {

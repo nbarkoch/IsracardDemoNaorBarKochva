@@ -14,6 +14,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const queryClient = getQueryClient();
+
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>

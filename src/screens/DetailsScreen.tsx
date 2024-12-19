@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Dimensions,
   Image,
@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import { RootStackParamList } from "../navigation/navigations";
 import ToggleFavoriteButton from "../components/ToggleFavoriteButton";
+import { useTheme } from "../hooks/useTheme";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 interface StatsSectionProps {
   title: string;
@@ -19,10 +20,20 @@ interface StatsSectionProps {
 }
 
 function StatsSection({ title, value }: StatsSectionProps) {
+  const { colors } = useTheme();
+
+  const themedStyles = useMemo(
+    () => ({
+      label: { color: colors.secondary },
+      value: { color: colors.text },
+    }),
+    [colors.secondary, colors.text]
+  );
+
   return (
     <View style={styles.statItem}>
-      <Text style={styles.statLabel}>{title}</Text>
-      <Text style={styles.statValue}>{value}</Text>
+      <Text style={[styles.statLabel, themedStyles.label]}>{title}</Text>
+      <Text style={[styles.statValue, themedStyles.value]}>{value}</Text>
     </View>
   );
 }
@@ -30,6 +41,18 @@ function StatsSection({ title, value }: StatsSectionProps) {
 function DetailsScreen() {
   const book = useRoute<RouteProp<RootStackParamList, "Details">>().params.book;
   const { title, releaseDate, cover, description, pages } = book;
+  const { colors } = useTheme();
+
+  const themedStyles = useMemo(
+    () => ({
+      detailsContainer: { backgroundColor: colors.background },
+      statsContainer: { backgroundColor: colors.highlight },
+      statDivider: { backgroundColor: colors.secondary },
+      title: { color: colors.text },
+      description: { color: colors.secondary },
+    }),
+    [colors]
+  );
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -38,17 +61,19 @@ function DetailsScreen() {
         style={styles.cover}
         resizeMode="contain"
       />
-      <View style={styles.detailsContainer}>
+      <View style={[styles.detailsContainer, themedStyles.detailsContainer]}>
         <View style={styles.titleSection}>
-          <Text style={[styles.title]}>{title}</Text>
+          <Text style={[styles.title, themedStyles.title]}>{title}</Text>
           <ToggleFavoriteButton book={book} />
         </View>
-        <View style={styles.statsContainer}>
-          <StatsSection title={"Release Date"} value={releaseDate} />
-          <View style={styles.statDivider} />
-          <StatsSection title={"Pages"} value={`${pages}`} />
+        <View style={[styles.statsContainer, themedStyles.statsContainer]}>
+          <StatsSection title="Release Date" value={releaseDate} />
+          <View style={[styles.statDivider, themedStyles.statDivider]} />
+          <StatsSection title="Pages" value={`${pages}`} />
         </View>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={[styles.description, themedStyles.description]}>
+          {description}
+        </Text>
       </View>
     </ScrollView>
   );
@@ -56,9 +81,8 @@ function DetailsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "rgba(0,0,0,0.8)" },
-  cover: { height: height * 0.45, margin: 30 },
+  cover: { margin: 30, height: Math.max(height, width) * 0.45 },
   detailsContainer: {
-    backgroundColor: "#fff",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -72,9 +96,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     padding: 15,
-    backgroundColor: "#f8f8f8",
     borderRadius: 16,
     marginBottom: 20,
+    alignItems: "center",
   },
   statItem: {
     flex: 1,
@@ -82,25 +106,21 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 12,
-    color: "#666",
     marginTop: 4,
     marginBottom: 2,
   },
   statValue: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#1a1a1a",
   },
   statDivider: {
     width: 1,
     height: "80%",
-    backgroundColor: "#e0e0e0",
     marginHorizontal: 15,
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#4a4a4a",
   },
   titleSection: {
     flexDirection: "row",

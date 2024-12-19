@@ -1,25 +1,22 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
-import {
-  ActivityIndicator,
-  Keyboard,
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import HomeTab from "./tabs/HomeTab";
 import FavoritesTab from "./tabs/FavoritesTab";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../hooks/useTheme";
 
 function MainScreen() {
   const Tab = createBottomTabNavigator();
+  const { colors } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveBackgroundColor: colors.background,
+        tabBarInactiveBackgroundColor: colors.background,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.secondary,
         tabBarIcon: ({ focused, color, size }) => {
           if (route.name === "Home") {
             return (

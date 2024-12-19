@@ -1,6 +1,15 @@
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useMemo } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import { Book } from "../utils/types";
+import { useTheme } from "../hooks/useTheme";
 
 interface BookCardViewProps {
   book: Book;
@@ -11,18 +20,50 @@ const BookCardView = ({
   onPress,
   book: { cover, title, releaseDate },
 }: BookCardViewProps) => {
+  const { colors } = useTheme();
+
+  const themedStyles = useMemo<{
+    card: ViewStyle;
+    title: TextStyle;
+    releaseDate: TextStyle;
+  }>(
+    () => ({
+      card: {
+        backgroundColor: colors.card,
+        borderColor: colors.border,
+      },
+      title: {
+        color: colors.text,
+      },
+      releaseDate: {
+        color: colors.secondary,
+      },
+    }),
+    [colors.border, colors.card, colors.text]
+  );
+
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.card, themedStyles.card]}
+      onPress={onPress}
+    >
       <Image
         source={{ uri: cover }}
         style={styles.cover}
         resizeMode="contain"
       />
       <View style={styles.info}>
-        <Text style={styles.title} ellipsizeMode="tail" numberOfLines={2}>
+        <Text
+          style={[styles.title, themedStyles.title]}
+          ellipsizeMode="tail"
+          numberOfLines={2}
+        >
           {title}
         </Text>
-        <Text style={styles.releaseData}> {releaseDate}</Text>
+        <Text style={[styles.releaseData, themedStyles.releaseDate]}>
+          {" "}
+          {releaseDate}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -33,8 +74,10 @@ const styles = StyleSheet.create({
     padding: 20,
     flexDirection: "row",
     borderWidth: 0.5,
-    backgroundColor: "#f6f6f6",
-    borderColor: "#d3d3d3",
+  },
+  title: {
+    fontWeight: "900",
+    fontSize: 18,
   },
   info: {
     flexDirection: "column",
@@ -46,13 +89,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 150,
   },
-  title: {
-    fontWeight: "900",
-    fontSize: 18,
-  },
   releaseData: {
     fontSize: 16,
-    color: "grey",
   },
 });
 

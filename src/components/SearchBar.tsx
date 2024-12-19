@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../hooks/useTheme";
 
 interface SearchBarProps {
   value: string;
@@ -8,15 +9,21 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ value, onChangeText }: SearchBarProps) {
+  const { colors } = useTheme();
   return (
-    <View style={styles.container}>
-      <Ionicons name="search-outline" size={20} color="#666" />
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.card, borderColor: colors.border },
+      ]}
+    >
+      <Ionicons name="search-outline" size={20} color={colors.secondary} />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: colors.text }]}
         value={value}
         onChangeText={onChangeText}
         placeholder="Search books..."
-        placeholderTextColor="#999"
+        placeholderTextColor={colors.placeholder}
         autoCapitalize="none"
         returnKeyType="search"
       />
@@ -24,7 +31,7 @@ export function SearchBar({ value, onChangeText }: SearchBarProps) {
         <Ionicons
           name="close-circle"
           size={20}
-          color="#666"
+          color={colors.secondary}
           onPress={() => onChangeText("")}
         />
       )}
@@ -36,7 +43,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffff",
+    borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
@@ -46,6 +53,5 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
     fontSize: 16,
-    color: "#333",
   },
 });

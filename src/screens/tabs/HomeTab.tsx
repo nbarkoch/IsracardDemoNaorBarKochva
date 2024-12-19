@@ -15,7 +15,7 @@ import { Book } from "../../utils/types";
 import { fetchJsonData } from "../../utils/network";
 import BookCardView from "../../components/BookCardView";
 import { SearchBar } from "../../components/SearchBar";
-import { useDebounce } from "../../hooks/useDebounce";
+import useSearch from "../../hooks/useSearch";
 
 const getHarryPotterBooks = async (): Promise<Book[]> => {
   return await fetchJsonData(HARRY_POTTER_BOOKS_API);
@@ -29,25 +29,21 @@ function HomeTab() {
     queryFn: getHarryPotterBooks,
   });
 
-  const renderItem: ListRenderItem<Book> = useCallback(({ item: book }) => {
-    const onPress = () => navigation.navigate("Details", { book });
-    return <BookCardView book={book} onPress={onPress} />;
-  }, []);
+  const renderItem: ListRenderItem<Book> = useCallback(
+    ({ item: book }) => {
+      const onPress = () => navigation.navigate("Details", { book });
+      return <BookCardView book={book} onPress={onPress} />;
+    },
+    [navigation]
+  );
 
   const [searchInput, setSearchInput] = useState<string>("");
-  const debouncedSearchTerm = useDebounce(searchInput);
-  const filteredData = useMemo(() => {
-    if (!data || data.length === 0) {
-      return data;
-    }
-    const normalizedSearch = debouncedSearchTerm.toLowerCase().trim();
-    return data.filter((book) => {
-      const searchWords = normalizedSearch.split(/\s+/);
-      return searchWords.every((word) =>
-        book.title.toLowerCase().includes(word)
-      );
-    });
-  }, [debouncedSearchTerm, data]);
+
+  const { filteredData } = useSearch<Book>({
+    searchInput,
+    data,
+    mapper: (b) => b.title,
+  });
 
   if (isLoading) {
     return (

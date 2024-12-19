@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Image,
   StyleSheet,
@@ -22,29 +22,33 @@ const BookCardView = ({
 }: BookCardViewProps) => {
   const { colors } = useTheme();
 
-  const cardStyle: ViewStyle = {
-    padding: 20,
-    flexDirection: "row",
-    borderWidth: 0.5,
-    backgroundColor: colors.card,
-    borderColor: colors.border,
-  };
-
-  const titleStyle: TextStyle = {
-    color: colors.text,
-    fontWeight: "900",
-    fontSize: 18,
-  };
+  const themedStyles = useMemo<{ card: ViewStyle; title: TextStyle }>(
+    () => ({
+      card: {
+        padding: 20,
+        flexDirection: "row",
+        borderWidth: 0.5,
+        backgroundColor: colors.card,
+        borderColor: colors.border,
+      },
+      title: {
+        color: colors.text,
+        fontWeight: "900",
+        fontSize: 18,
+      },
+    }),
+    [colors.border, colors.card, colors.text]
+  );
 
   return (
-    <TouchableOpacity style={cardStyle} onPress={onPress}>
+    <TouchableOpacity style={themedStyles.card} onPress={onPress}>
       <Image
         source={{ uri: cover }}
         style={styles.cover}
         resizeMode="contain"
       />
       <View style={styles.info}>
-        <Text style={titleStyle} ellipsizeMode="tail" numberOfLines={2}>
+        <Text style={themedStyles.title} ellipsizeMode="tail" numberOfLines={2}>
           {title}
         </Text>
         <Text style={styles.releaseData}> {releaseDate}</Text>

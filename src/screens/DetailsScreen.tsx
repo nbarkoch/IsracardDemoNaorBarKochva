@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Dimensions,
   Image,
@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ViewStyle,
 } from "react-native";
 import { RootStackParamList } from "../navigation/navigations";
 import ToggleFavoriteButton from "../components/ToggleFavoriteButton";
@@ -22,12 +21,19 @@ interface StatsSectionProps {
 
 function StatsSection({ title, value }: StatsSectionProps) {
   const { colors } = useTheme();
+
+  const themedStyles = useMemo(
+    () => ({
+      label: { color: colors.secondary },
+      value: { color: colors.text },
+    }),
+    [colors.secondary, colors.text]
+  );
+
   return (
     <View style={styles.statItem}>
-      <Text style={[styles.statLabel, { color: colors.secondary }]}>
-        {title}
-      </Text>
-      <Text style={[styles.statValue, { color: colors.text }]}>{value}</Text>
+      <Text style={[styles.statLabel, themedStyles.label]}>{title}</Text>
+      <Text style={[styles.statValue, themedStyles.value]}>{value}</Text>
     </View>
   );
 }
@@ -37,6 +43,17 @@ function DetailsScreen() {
   const { title, releaseDate, cover, description, pages } = book;
   const { colors } = useTheme();
 
+  const themedStyles = useMemo(
+    () => ({
+      detailsContainer: { backgroundColor: colors.background },
+      statsContainer: { backgroundColor: colors.highlight },
+      statDivider: { backgroundColor: colors.secondary },
+      title: { color: colors.text },
+      description: { color: colors.secondary },
+    }),
+    [colors]
+  );
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Image
@@ -44,26 +61,17 @@ function DetailsScreen() {
         style={styles.cover}
         resizeMode="contain"
       />
-      <View
-        style={[
-          styles.detailsContainer,
-          { backgroundColor: colors.background },
-        ]}
-      >
+      <View style={[styles.detailsContainer, themedStyles.detailsContainer]}>
         <View style={styles.titleSection}>
-          <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
+          <Text style={[styles.title, themedStyles.title]}>{title}</Text>
           <ToggleFavoriteButton book={book} />
         </View>
-        <View
-          style={[styles.statsContainer, { backgroundColor: colors.highlight }]}
-        >
-          <StatsSection title={"Release Date"} value={releaseDate} />
-          <View
-            style={[styles.statDivider, { backgroundColor: colors.secondary }]}
-          />
-          <StatsSection title={"Pages"} value={`${pages}`} />
+        <View style={[styles.statsContainer, themedStyles.statsContainer]}>
+          <StatsSection title="Release Date" value={releaseDate} />
+          <View style={[styles.statDivider, themedStyles.statDivider]} />
+          <StatsSection title="Pages" value={`${pages}`} />
         </View>
-        <Text style={[styles.description, { color: colors.secondary }]}>
+        <Text style={[styles.description, themedStyles.description]}>
           {description}
         </Text>
       </View>

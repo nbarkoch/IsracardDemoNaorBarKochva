@@ -13,42 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 import { Book } from "../../utils/types";
 import BookCardView from "../../components/BookCardView";
 import useSearch from "../../hooks/useSearch";
-import { useDispatch } from "react-redux";
-import {
-  FAVORITE_STORAGE_KEY,
-  setFavorites,
-  setLoading,
-} from "../../store/favoritesSlice";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FavoritesTab = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const { favoriteBooks: data, isLoadingFromStorage } = useAppSelector(
     (state) => state.favorites
   );
-
-  useEffect(() => {
-    const loadFavoritesFromStorage = async () => {
-      dispatch(setLoading(true));
-      try {
-        const storedFavorites = await AsyncStorage.getItem(
-          FAVORITE_STORAGE_KEY
-        );
-        if (storedFavorites) {
-          const favoriteBooks: Book[] = JSON.parse(storedFavorites);
-          dispatch(setFavorites(favoriteBooks));
-        }
-      } catch (error) {
-        console.error("Failed to load favorites from storage", error);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
-
-    loadFavoritesFromStorage();
-  }, [dispatch]);
 
   const renderItem: ListRenderItem<Book> = useCallback(
     ({ item: book }) => {

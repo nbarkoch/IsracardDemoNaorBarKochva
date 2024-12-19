@@ -8,12 +8,16 @@ import DetailsScreen from "./src/screens/DetailsScreen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { getQueryClient } from "./src/utils/network";
 import { Provider } from "react-redux";
-import { store } from "./src/store";
+import { initializeStore, store } from "./src/store";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const queryClient = getQueryClient();
+  useEffect(() => {
+    initializeStore();
+  }, []);
 
   return (
     <Provider store={store}>

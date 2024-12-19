@@ -12,8 +12,6 @@ const initialState: FavoritesState = {
   isLoadingFromStorage: false,
 };
 
-export const FAVORITE_STORAGE_KEY = "favorites";
-
 const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
@@ -32,10 +30,6 @@ const favoritesSlice = createSlice({
         // else - add
         state.favoriteBooks.push(action.payload);
       }
-      AsyncStorage.setItem(
-        FAVORITE_STORAGE_KEY,
-        JSON.stringify(state.favoriteBooks)
-      );
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoadingFromStorage = action.payload;

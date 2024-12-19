@@ -10,6 +10,7 @@ import { SortControl, SortOption, SortDirection } from "./SortControl";
 import { useSort } from "../hooks/useSort";
 import { sortBookOption } from "../utils/sortBookOption";
 import { FlashList, ListRenderItem } from "@shopify/flash-list";
+import { useTheme } from "../hooks/useTheme";
 
 interface BookListProps {
   data: Book[] | undefined;
@@ -28,6 +29,7 @@ export function BookList({
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState<SortOption>("title");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const { colors } = useTheme();
 
   const { filteredData } = useSearch<Book>({
     searchInput,
@@ -62,11 +64,16 @@ export function BookList({
     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
+  const containerStyle = {
+    flex: 1,
+    backgroundColor: colors.background,
+  };
+
   if (isLoading) {
     return (
-      <View style={styles.container}>
+      <View style={containerStyle}>
         <ActivityIndicator
-          style={styles.container}
+          style={containerStyle}
           color={"white"}
           size="large"
         />
@@ -76,7 +83,7 @@ export function BookList({
 
   if (isError) {
     return (
-      <View style={styles.container}>
+      <View style={containerStyle}>
         <Text style={styles.message}>Oops</Text>
         <Text style={styles.message}>Something went wrong</Text>
         <Text style={styles.smallMessage}>Try again later..</Text>
@@ -86,14 +93,14 @@ export function BookList({
 
   if (!data || data.length === 0) {
     return (
-      <View style={styles.container}>
+      <View style={containerStyle}>
         <Text style={styles.message}>No Books Are Currently Available</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <SearchBar value={searchInput} onChangeText={setSearchInput} />
       <SortControl
         selectedOption={sortOption}
@@ -112,10 +119,6 @@ export function BookList({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
   message: {
     textAlign: "center",
     fontSize: 20,

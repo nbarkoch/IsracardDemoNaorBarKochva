@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../hooks/useTheme";
 
 export type SortOption = "title" | "releaseDate" | "pages";
 export type SortDirection = "asc" | "desc";
@@ -24,19 +25,30 @@ export function SortControl({
   onSortChange,
   onDirectionChange,
 }: SortControlProps) {
+  const { colors } = useTheme();
+
   return (
     <View style={styles.container}>
       <View style={styles.chipGroup}>
         {SORT_OPTIONS.map(({ key, label }) => (
           <TouchableOpacity
             key={key}
-            style={[styles.chip, selectedOption === key && styles.selectedChip]}
+            style={[
+              styles.chip,
+              {
+                backgroundColor:
+                  selectedOption === key ? colors.primary : colors.card,
+              },
+            ]}
             onPress={() => onSortChange(key)}
           >
             <Text
               style={[
                 styles.chipText,
-                selectedOption === key && styles.selectedChipText,
+                {
+                  color:
+                    selectedOption === key ? colors.background : colors.primary,
+                },
               ]}
             >
               {label}
@@ -45,7 +57,7 @@ export function SortControl({
               <Ionicons
                 name={sortDirection === "asc" ? "chevron-up" : "chevron-down"}
                 size={16}
-                color="#fff"
+                color={colors.background}
                 onPress={onDirectionChange}
               />
             )}
@@ -68,7 +80,6 @@ const styles = StyleSheet.create({
   chip: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 16,
@@ -79,10 +90,6 @@ const styles = StyleSheet.create({
   },
   chipText: {
     fontSize: 14,
-    color: "#666",
     fontWeight: "500",
-  },
-  selectedChipText: {
-    color: "#fff",
   },
 });

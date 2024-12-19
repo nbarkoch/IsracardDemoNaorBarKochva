@@ -7,9 +7,11 @@ import {
   StyleSheet,
   Text,
   View,
+  ViewStyle,
 } from "react-native";
 import { RootStackParamList } from "../navigation/navigations";
 import ToggleFavoriteButton from "../components/ToggleFavoriteButton";
+import { useTheme } from "../hooks/useTheme";
 
 const { height } = Dimensions.get("window");
 
@@ -19,10 +21,13 @@ interface StatsSectionProps {
 }
 
 function StatsSection({ title, value }: StatsSectionProps) {
+  const { colors } = useTheme();
   return (
     <View style={styles.statItem}>
-      <Text style={styles.statLabel}>{title}</Text>
-      <Text style={styles.statValue}>{value}</Text>
+      <Text style={[styles.statLabel, { color: colors.secondary }]}>
+        {title}
+      </Text>
+      <Text style={[styles.statValue, { color: colors.text }]}>{value}</Text>
     </View>
   );
 }
@@ -30,6 +35,7 @@ function StatsSection({ title, value }: StatsSectionProps) {
 function DetailsScreen() {
   const book = useRoute<RouteProp<RootStackParamList, "Details">>().params.book;
   const { title, releaseDate, cover, description, pages } = book;
+  const { colors } = useTheme();
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -38,17 +44,28 @@ function DetailsScreen() {
         style={styles.cover}
         resizeMode="contain"
       />
-      <View style={styles.detailsContainer}>
+      <View
+        style={[
+          styles.detailsContainer,
+          { backgroundColor: colors.background },
+        ]}
+      >
         <View style={styles.titleSection}>
-          <Text style={[styles.title]}>{title}</Text>
+          <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
           <ToggleFavoriteButton book={book} />
         </View>
-        <View style={styles.statsContainer}>
+        <View
+          style={[styles.statsContainer, { backgroundColor: colors.highlight }]}
+        >
           <StatsSection title={"Release Date"} value={releaseDate} />
-          <View style={styles.statDivider} />
+          <View
+            style={[styles.statDivider, { backgroundColor: colors.secondary }]}
+          />
           <StatsSection title={"Pages"} value={`${pages}`} />
         </View>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={[styles.description, { color: colors.secondary }]}>
+          {description}
+        </Text>
       </View>
     </ScrollView>
   );
@@ -58,7 +75,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "rgba(0,0,0,0.8)" },
   cover: { height: height * 0.45, margin: 30 },
   detailsContainer: {
-    backgroundColor: "#fff",
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 20,
@@ -72,9 +88,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     padding: 15,
-    backgroundColor: "#f8f8f8",
     borderRadius: 16,
     marginBottom: 20,
+    alignItems: "center",
   },
   statItem: {
     flex: 1,
@@ -82,7 +98,6 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 12,
-    color: "#666",
     marginTop: 4,
     marginBottom: 2,
   },
@@ -94,7 +109,6 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: "80%",
-    backgroundColor: "#e0e0e0",
     marginHorizontal: 15,
   },
   description: {

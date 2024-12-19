@@ -1,6 +1,15 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import { Book } from "../utils/types";
+import { useTheme } from "../hooks/useTheme";
 
 interface BookCardViewProps {
   book: Book;
@@ -11,15 +20,31 @@ const BookCardView = ({
   onPress,
   book: { cover, title, releaseDate },
 }: BookCardViewProps) => {
+  const { colors } = useTheme();
+
+  const cardStyle: ViewStyle = {
+    padding: 20,
+    flexDirection: "row",
+    borderWidth: 0.5,
+    backgroundColor: colors.card,
+    borderColor: colors.border,
+  };
+
+  const titleStyle: TextStyle = {
+    color: colors.text,
+    fontWeight: "900",
+    fontSize: 18,
+  };
+
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity style={cardStyle} onPress={onPress}>
       <Image
         source={{ uri: cover }}
         style={styles.cover}
         resizeMode="contain"
       />
       <View style={styles.info}>
-        <Text style={styles.title} ellipsizeMode="tail" numberOfLines={2}>
+        <Text style={titleStyle} ellipsizeMode="tail" numberOfLines={2}>
           {title}
         </Text>
         <Text style={styles.releaseData}> {releaseDate}</Text>
@@ -45,10 +70,6 @@ const styles = StyleSheet.create({
   cover: {
     width: 100,
     height: 150,
-  },
-  title: {
-    fontWeight: "900",
-    fontSize: 18,
   },
   releaseData: {
     fontSize: 16,

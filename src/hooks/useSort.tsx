@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { SortDirection } from "../components/SortButtonGroup";
+import { SortDirection } from "../components/SortControl";
 
 export function useSort<T>(
   data: T[] | undefined,

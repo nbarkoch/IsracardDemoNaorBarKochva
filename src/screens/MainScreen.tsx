@@ -18,15 +18,25 @@ function MainScreen() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "#6acad8",
+        tabBarActiveTintColor: "black",
         tabBarInactiveTintColor: "gray",
-        tabBarShowLabel: false, // Hide labels
-        tabBarIcon: ({ color, size }) => {
-          // Set icons based on the route name
+        tabBarIcon: ({ focused, color, size }) => {
           if (route.name === "Home") {
-            return <Ionicons name="home" size={size} color={color} />;
+            return (
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={size}
+                color={color}
+              />
+            );
           } else if (route.name === "Favorites") {
-            return <Ionicons name="heart-outline" size={size} color={color} />;
+            return (
+              <Ionicons
+                name={focused ? "heart" : "heart-outline"}
+                size={size}
+                color={color}
+              />
+            );
           }
         },
       })}
@@ -36,7 +46,11 @@ function MainScreen() {
         component={HomeTab}
         options={{ headerShown: false }}
       />
-      <Tab.Screen name="Favorites" component={FavoritesTab} />
+      <Tab.Screen
+        name="Favorites"
+        component={FavoritesTab}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 }

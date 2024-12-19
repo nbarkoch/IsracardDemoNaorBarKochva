@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -14,6 +14,8 @@ import { HARRY_POTTER_BOOKS_API } from "../../utils/constants";
 import { Book } from "../../utils/types";
 import { fetchJsonData } from "../../utils/network";
 import BookCardView from "../../components/BookCardView";
+import { SearchBar } from "../../components/SearchBar";
+import useSearch from "../../hooks/useSearch";
 
 const getHarryPotterBooks = async (): Promise<Book[]> => {
   return await fetchJsonData(HARRY_POTTER_BOOKS_API);
@@ -27,10 +29,21 @@ function HomeTab() {
     queryFn: getHarryPotterBooks,
   });
 
-  const renderItem: ListRenderItem<Book> = useCallback(({ item: book }) => {
-    const onPress = () => navigation.navigate("Details", { book });
-    return <BookCardView book={book} onPress={onPress} />;
-  }, []);
+  const renderItem: ListRenderItem<Book> = useCallback(
+    ({ item: book }) => {
+      const onPress = () => navigation.navigate("Details", { book });
+      return <BookCardView book={book} onPress={onPress} />;
+    },
+    [navigation]
+  );
+
+  const [searchInput, setSearchInput] = useState<string>("");
+
+  const { filteredData } = useSearch<Book>({
+    searchInput,
+    data,
+    mapper: (b) => b.title,
+  });
 
   if (isLoading) {
     return (
@@ -65,8 +78,9 @@ function HomeTab() {
 
   return (
     <View style={styles.container}>
+      <SearchBar value={searchInput} onChangeText={setSearchInput} />
       <FlatList
-        data={data}
+        data={filteredData}
         renderItem={renderItem}
         keyExtractor={(book) => `${book.index}`}
       />

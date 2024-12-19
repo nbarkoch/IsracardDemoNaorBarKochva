@@ -6,20 +6,18 @@ import {
   ListRenderItem,
   ActivityIndicator,
 } from "react-native";
-import { useAppSelector } from "../../hooks/redux";
 import { SearchBar } from "../../components/SearchBar";
 import { RootStackNavigationProp } from "../../navigation/navigations";
 import { useNavigation } from "@react-navigation/native";
 import { Book } from "../../utils/types";
 import BookCardView from "../../components/BookCardView";
 import useSearch from "../../hooks/useSearch";
+import { useFavorites } from "../../hooks/useFavorites";
 
 const FavoritesTab = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
-  const { favoriteBooks: data, isLoadingFromStorage } = useAppSelector(
-    (state) => state.favorites
-  );
+  const { favorites: data, isLoading } = useFavorites();
 
   const renderItem: ListRenderItem<Book> = useCallback(
     ({ item: book }) => {
@@ -37,7 +35,7 @@ const FavoritesTab = () => {
     mapper: (b) => `${b.title} ${b.description}`,
   });
 
-  if (isLoadingFromStorage) {
+  if (isLoading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator

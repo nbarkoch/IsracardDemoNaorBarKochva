@@ -7,41 +7,32 @@ import MainScreen from "./src/screens/MainScreen";
 import DetailsScreen from "./src/screens/DetailsScreen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { getQueryClient } from "./src/utils/network";
-import { Provider } from "react-redux";
-import { initializeStore, store } from "./src/store";
-import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const queryClient = getQueryClient();
-  useEffect(() => {
-    initializeStore();
-  }, []);
-
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={styles.container}>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="Main">
-              <Stack.Screen
-                name="Main"
-                options={{ headerShown: false }}
-                component={MainScreen}
-              />
-              <Stack.Screen
-                name="Details"
-                options={{
-                  title: "Book Info",
-                }}
-                component={DetailsScreen}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
-      </QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              options={{ headerShown: false }}
+              component={MainScreen}
+            />
+            <Stack.Screen
+              name="Details"
+              options={{
+                title: "Book Info",
+              }}
+              component={DetailsScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }
 

@@ -19,10 +19,12 @@ import {
   SortingOption,
 } from "~/utils/sortBookOption";
 
-import BookCardView from "./BookCardView";
+import BookCardRow from "./BookCardRow";
+import BookCardCube from "./BookCardCube";
 import SearchBar from "./SearchBar";
 import SortControl from "./SortControl";
 import { useTranslation } from "react-i18next";
+import ViewToggle from "./DisplayToggle";
 
 interface BookListProps {
   data: Book[] | undefined;
@@ -41,6 +43,7 @@ function BookList({
   const [searchInput, setSearchInput] = useState("");
   const [sortOption, setSortOption] = useState<SortingOption>("title");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const [isGridView, setIsGridView] = useState(false);
   const { colors } = useTheme();
   const { t } = useTranslation();
 
@@ -59,9 +62,13 @@ function BookList({
   const renderItem: ListRenderItem<Book> = useCallback(
     ({ item: book }) => {
       const onPress = () => navigation.navigate("Details", { book });
-      return <BookCardView book={book} onPress={onPress} />;
+      if (isGridView) {
+        return <BookCardCube book={book} onPress={onPress} />;
+      } else {
+        return <BookCardRow book={book} onPress={onPress} />;
+      }
     },
-    [navigation]
+    [navigation, isGridView]
   );
 
   const handleSortChange = (option: SortingOption) => {
@@ -75,6 +82,10 @@ function BookList({
 
   const toggleSortDirection = () => {
     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+  };
+
+  const toggleViewMode = () => {
+    setIsGridView((prev) => !prev);
   };
 
   const containerStyle: ViewStyle = {
@@ -116,17 +127,22 @@ function BookList({
   return (
     <View style={containerStyle}>
       <SearchBar value={searchInput} onChangeText={setSearchInput} />
-      <SortControl
-        selectedOption={sortOption}
-        sortDirection={sortDirection}
-        onSortChange={handleSortChange}
-        onDirectionChange={toggleSortDirection}
-      />
+      <View style={styles.controlsContainer}>
+        <SortControl
+          selectedOption={sortOption}
+          sortDirection={sortDirection}
+          onSortChange={handleSortChange}
+          onDirectionChange={toggleSortDirection}
+        />
+        <ViewToggle isGridView={isGridView} onToggle={toggleViewMode} />
+      </View>
       <FlashList
         data={sortedData}
         renderItem={renderItem}
         keyExtractor={(book) => `${book.index}`}
         estimatedItemSize={190}
+        numColumns={isGridView ? 2 : 1}
+        key={isGridView ? "grid" : "list"}
       />
     </View>
   );
@@ -144,6 +160,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "grey",
     padding: 10,
+  },
+  controlsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingBottom: 8,
   },
 });
 

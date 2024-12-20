@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "~/hooks";
 import { SortingOption, SortDirection } from "~/utils/sortBookOption";
 import { useTranslation } from "react-i18next";
+import { ICON_EXTRA_SMALL_SIZE } from "~/utils/constants";
 
 interface SortControlProps {
   selectedOption: SortingOption;
@@ -54,7 +55,7 @@ function SortControl({
             {selectedOption === key && (
               <Ionicons
                 name={sortDirection === "asc" ? "chevron-up" : "chevron-down"}
-                size={16}
+                size={ICON_EXTRA_SMALL_SIZE}
                 color={colors.background}
                 onPress={onDirectionChange}
               />

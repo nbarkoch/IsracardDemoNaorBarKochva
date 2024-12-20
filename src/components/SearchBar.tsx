@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useTheme } from "~/hooks";
 import { useTranslation } from "react-i18next";
+import { ICON_SMALL_SIZE } from "~/utils/constants";
 
 interface SearchBarProps {
   value: string;
@@ -22,7 +23,11 @@ function SearchBar({ value, onChangeText }: SearchBarProps) {
         { backgroundColor: colors.card, borderColor: colors.border },
       ]}
     >
-      <Ionicons name="search-outline" size={20} color={colors.secondary} />
+      <Ionicons
+        name="search-outline"
+        size={ICON_SMALL_SIZE}
+        color={colors.secondary}
+      />
       <TextInput
         style={[styles.input, { color: colors.text }]}
         value={value}
@@ -35,7 +40,7 @@ function SearchBar({ value, onChangeText }: SearchBarProps) {
       {value.length > 0 && (
         <Ionicons
           name="close-circle"
-          size={20}
+          size={ICON_SMALL_SIZE}
           color={colors.secondary}
           onPress={() => onChangeText("")}
         />

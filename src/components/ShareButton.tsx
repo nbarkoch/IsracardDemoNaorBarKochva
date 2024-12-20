@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useTheme } from "~/hooks";
 import { Book } from "~/utils/types";
+import { ICON_STANDARD_SIZE } from "~/utils/constants";
 
 interface ShareButtonProps {
   book: Book;
@@ -30,7 +31,7 @@ function ShareButton({ book }: ShareButtonProps) {
     >
       <Ionicons
         name="share-social-outline"
-        size={24}
+        size={ICON_STANDARD_SIZE}
         color={colors.secondary}
       />
     </TouchableOpacity>

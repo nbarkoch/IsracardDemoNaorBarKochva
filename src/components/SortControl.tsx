@@ -1,25 +1,25 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "../hooks/useTheme";
 
-export type SortOption = "title" | "releaseDate" | "pages";
-export type SortDirection = "asc" | "desc";
+import { Ionicons } from "@expo/vector-icons";
+
+import { useTheme } from "~/hooks";
+import { SortingOption, SortDirection } from "~/utils/sortBookOption";
 
 interface SortControlProps {
-  selectedOption: SortOption;
+  selectedOption: SortingOption;
   sortDirection: SortDirection;
-  onSortChange: (option: SortOption) => void;
+  onSortChange: (option: SortingOption) => void;
   onDirectionChange: () => void;
 }
 
 const SORT_OPTIONS = [
-  { key: "title" as SortOption, label: "Title" },
-  { key: "releaseDate" as SortOption, label: "Date" },
-  { key: "pages" as SortOption, label: "Pages" },
+  { key: "title" as SortingOption, label: "Title" },
+  { key: "releaseDate" as SortingOption, label: "Date" },
+  { key: "pages" as SortingOption, label: "Pages" },
 ];
 
-export function SortControl({
+function SortControl({
   selectedOption,
   sortDirection,
   onSortChange,
@@ -90,3 +90,5 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 });
+
+export default SortControl;

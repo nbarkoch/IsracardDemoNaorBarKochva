@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { useDebounce } from "./useDebounce";
+
+import useDebounce from "./useDebounce";
 
 interface SearchProps<T> {
   searchInput: string;

@@ -1,7 +1,8 @@
-import { lightTheme, darkTheme } from "../utils/theme";
 import { useColorScheme } from "react-native";
 
-export function useTheme() {
+import { lightTheme, darkTheme } from "~/utils/theme";
+
+function useTheme() {
   const deviceTheme = useColorScheme();
   return {
     theme: deviceTheme === "dark" ? darkTheme : lightTheme,
@@ -9,3 +10,5 @@ export function useTheme() {
     isDark: deviceTheme === "dark",
   };
 }
+
+export default useTheme;

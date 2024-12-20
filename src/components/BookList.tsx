@@ -1,16 +1,21 @@
 import React, { useCallback, useState } from "react";
 import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
-import { RootStackNavigationProp } from "../navigation/navigations";
-import { Book } from "../utils/types";
-import BookCardView from "./BookCardView";
-import { SearchBar } from "./SearchBar";
-import useSearch from "../hooks/useSearch";
-import { SortControl, SortOption, SortDirection } from "./SortControl";
-import { useSort } from "../hooks/useSort";
-import { sortBookOption } from "../utils/sortBookOption";
 import { FlashList, ListRenderItem } from "@shopify/flash-list";
-import { useTheme } from "../hooks/useTheme";
+
+import { RootStackNavigationProp } from "~/navigation/navigations";
+import { useSort, useTheme, useSearch } from "~/hooks";
+import { Book } from "~/utils/types";
+import {
+  sortBookOption,
+  SortDirection,
+  SortingOption,
+} from "~/utils/sortBookOption";
+
+import BookCardView from "./BookCardView";
+import SearchBar from "./SearchBar";
+import SortControl from "./SortControl";
 
 interface BookListProps {
   data: Book[] | undefined;
@@ -19,7 +24,7 @@ interface BookListProps {
   searchMapper?: (book: Book) => string;
 }
 
-export function BookList({
+function BookList({
   data,
   isLoading,
   isError,
@@ -27,7 +32,7 @@ export function BookList({
 }: BookListProps) {
   const navigation = useNavigation<RootStackNavigationProp>();
   const [searchInput, setSearchInput] = useState("");
-  const [sortOption, setSortOption] = useState<SortOption>("title");
+  const [sortOption, setSortOption] = useState<SortingOption>("title");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const { colors } = useTheme();
 
@@ -51,7 +56,7 @@ export function BookList({
     [navigation]
   );
 
-  const handleSortChange = (option: SortOption) => {
+  const handleSortChange = (option: SortingOption) => {
     if (option === sortOption) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
@@ -132,3 +137,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default BookList;

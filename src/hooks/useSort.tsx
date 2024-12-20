@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { SortDirection } from "../components/SortControl";
 
-export function useSort<T>(
+type SortDirection = "asc" | "desc";
+
+function useSort<T>(
   data: T[] | undefined,
   sortCompare: (a: T, b: T) => number,
   sortDirection: SortDirection
@@ -13,3 +14,5 @@ export function useSort<T>(
     return [...data].sort((a, b) => sortCompare(a, b) * multiplier);
   }, [data, sortCompare, sortDirection]);
 }
+
+export default useSort;

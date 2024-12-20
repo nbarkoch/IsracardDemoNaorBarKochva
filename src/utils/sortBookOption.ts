@@ -1,6 +1,7 @@
 import { Book } from "./types";
 
 export type SortingOption = "title" | "releaseDate" | "pages";
+export type SortDirection = "asc" | "desc";
 
 const MONTH_TO_NUM: { [key: string]: number } = {
   Jan: 1,

@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../store/store";
-import { toggleFavorite } from "../store/favoritesSlice";
-import { Book } from "../utils/types";
 
-export function useFavorites() {
+import { toggleFavorite } from "~/store/favoritesSlice";
+import { RootState } from "~/store/store";
+import { Book } from "~/utils/types";
+
+function useFavorites() {
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.books);
 
@@ -13,3 +14,5 @@ export function useFavorites() {
     isFavorite: (book: Book) => favorites.some((b) => b.index === book.index),
   };
 }
+
+export default useFavorites;

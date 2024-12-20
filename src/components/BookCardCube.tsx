@@ -12,15 +12,15 @@ import {
 import { Book } from "~/utils/types";
 import { useTheme } from "~/hooks";
 
-interface BookCardViewProps {
+interface BookCardCubeProps {
   book: Book;
   onPress: () => void;
 }
 
-const BookCardView = ({
+const BookCardCube = ({
   onPress,
   book: { cover, title, releaseDate },
-}: BookCardViewProps) => {
+}: BookCardCubeProps) => {
   const { colors } = useTheme();
 
   const themedStyles = useMemo<{
@@ -72,12 +72,13 @@ const BookCardView = ({
 const styles = StyleSheet.create({
   card: {
     padding: 20,
-    flexDirection: "row",
+    width: "100%",
     borderWidth: 0.5,
   },
   title: {
     fontWeight: "900",
     fontSize: 18,
+    textAlign: "center",
   },
   info: {
     flexDirection: "column",
@@ -86,12 +87,13 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   cover: {
-    width: 100,
+    width: "100%",
     height: 150,
   },
   releaseData: {
     fontSize: 16,
+    textAlign: "center",
   },
 });
 
-export default BookCardView;
+export default BookCardCube;

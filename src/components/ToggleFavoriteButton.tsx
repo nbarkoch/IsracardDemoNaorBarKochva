@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import useFavorites from "~/hooks/useFavorites";
 import useTheme from "~/hooks/useTheme";
 import { Book } from "~/utils/types";
+import { ICON_STANDARD_SIZE } from "~/utils/constants";
 
 interface ToggleFavoriteButtonProps {
   book: Book;
@@ -26,7 +27,7 @@ function ToggleFavoriteButton({ book }: ToggleFavoriteButtonProps) {
     >
       <Ionicons
         name={isBookFavorite ? "heart" : "heart-outline"}
-        size={24}
+        size={ICON_STANDARD_SIZE}
         color={isBookFavorite ? colors.notification : colors.secondary}
       />
     </TouchableOpacity>

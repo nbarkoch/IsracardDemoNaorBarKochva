@@ -13,6 +13,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { ToggleFavoriteButton } from "~/components";
 import { useTheme } from "~/hooks";
 import { RootStackParamList } from "~/navigation/navigations";
+import { useTranslation } from "react-i18next";
 
 const { height, width } = Dimensions.get("window");
 
@@ -44,6 +45,7 @@ function DetailsScreen() {
   const book = useRoute<RouteProp<RootStackParamList, "Details">>().params.book;
   const { title, releaseDate, cover, description, pages } = book;
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const themedStyles = useMemo(
     () => ({
@@ -69,9 +71,12 @@ function DetailsScreen() {
           <ToggleFavoriteButton book={book} />
         </View>
         <View style={[styles.statsContainer, themedStyles.statsContainer]}>
-          <StatsSection title="Release Date" value={releaseDate} />
+          <StatsSection
+            title={t("bookDetails.releaseDate")}
+            value={releaseDate}
+          />
           <View style={[styles.statDivider, themedStyles.statDivider]} />
-          <StatsSection title="Pages" value={`${pages}`} />
+          <StatsSection title={t("bookDetails.pages")} value={`${pages}`} />
         </View>
         <Text style={[styles.description, themedStyles.description]}>
           {description}

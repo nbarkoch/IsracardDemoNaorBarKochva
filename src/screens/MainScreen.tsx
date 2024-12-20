@@ -8,10 +8,13 @@ import { useTheme } from "~/hooks";
 
 import FavoritesTab from "./tabs/FavoritesTab";
 import HomeTab from "./tabs/HomeTab";
+import { useTranslation } from "react-i18next";
 
 function MainScreen() {
   const Tab = createBottomTabNavigator();
   const { colors } = useTheme();
+  const { t } = useTranslation();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -43,12 +46,12 @@ function MainScreen() {
       <Tab.Screen
         name="Home"
         component={HomeTab}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, tabBarLabel: t("tabs.home") }}
       />
       <Tab.Screen
         name="Favorites"
         component={FavoritesTab}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, tabBarLabel: t("tabs.favorites") }}
       />
     </Tab.Navigator>
   );

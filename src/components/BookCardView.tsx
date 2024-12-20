@@ -62,7 +62,6 @@ const BookCardView = ({
           {title}
         </Text>
         <Text style={[styles.releaseData, themedStyles.releaseDate]}>
-          {" "}
           {releaseDate}
         </Text>
       </View>

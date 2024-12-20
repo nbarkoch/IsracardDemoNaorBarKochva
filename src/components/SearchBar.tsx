@@ -4,6 +4,7 @@ import { StyleSheet, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useTheme } from "~/hooks";
+import { useTranslation } from "react-i18next";
 
 interface SearchBarProps {
   value: string;
@@ -12,6 +13,8 @@ interface SearchBarProps {
 
 function SearchBar({ value, onChangeText }: SearchBarProps) {
   const { colors } = useTheme();
+  const { t } = useTranslation();
+
   return (
     <View
       style={[
@@ -24,7 +27,7 @@ function SearchBar({ value, onChangeText }: SearchBarProps) {
         style={[styles.input, { color: colors.text }]}
         value={value}
         onChangeText={onChangeText}
-        placeholder="Search books..."
+        placeholder={t("common.search")}
         placeholderTextColor={colors.placeholder}
         autoCapitalize="none"
         returnKeyType="search"

@@ -1,14 +1,11 @@
-import { en } from "./langs";
-
-// Derive types from the English resource
-type TranslationResource = typeof en;
+import { BaseTranslation } from "./langs";
 
 // Extend i18next types
 declare module "i18next" {
   interface CustomTypeOptions {
     defaultNS: "translation";
     resources: {
-      translation: TranslationResource;
+      translation: BaseTranslation;
     };
   }
 }

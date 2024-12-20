@@ -1,5 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Text,
+  ViewStyle,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { FlashList, ListRenderItem } from "@shopify/flash-list";
@@ -71,8 +77,9 @@ function BookList({
     setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
-  const containerStyle = {
+  const containerStyle: ViewStyle = {
     flex: 1,
+    justifyContent: "center",
     backgroundColor: colors.background,
   };
 
@@ -81,7 +88,7 @@ function BookList({
       <View style={containerStyle}>
         <ActivityIndicator
           style={containerStyle}
-          color={"white"}
+          color={colors.primary}
           size="large"
         />
       </View>

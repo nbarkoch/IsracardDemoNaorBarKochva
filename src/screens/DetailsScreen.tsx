@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useMemo } from "react";
 import {
   Dimensions,
@@ -8,9 +7,12 @@ import {
   Text,
   View,
 } from "react-native";
-import { RootStackParamList } from "../navigation/navigations";
-import ToggleFavoriteButton from "../components/ToggleFavoriteButton";
-import { useTheme } from "../hooks/useTheme";
+
+import { RouteProp, useRoute } from "@react-navigation/native";
+
+import { ToggleFavoriteButton } from "~/components";
+import { useTheme } from "~/hooks";
+import { RootStackParamList } from "~/navigation/navigations";
 
 const { height, width } = Dimensions.get("window");
 

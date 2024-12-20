@@ -1,8 +1,10 @@
-import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { Book } from "../utils/types";
-import { useFavorites } from "../hooks/useFavorites";
-import { useTheme } from "../hooks/useTheme";
+
+import { Ionicons } from "@expo/vector-icons";
+
+import useFavorites from "~/hooks/useFavorites";
+import useTheme from "~/hooks/useTheme";
+import { Book } from "~/utils/types";
 
 interface ToggleFavoriteButtonProps {
   book: Book;

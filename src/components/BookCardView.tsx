@@ -8,8 +8,9 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import { Book } from "../utils/types";
-import { useTheme } from "../hooks/useTheme";
+
+import { Book } from "~/utils/types";
+import { useTheme } from "~/hooks";
 
 interface BookCardViewProps {
   book: Book;

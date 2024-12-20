@@ -1,14 +1,16 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "../hooks/useTheme";
+
+import { useTheme } from "~/hooks";
 
 interface SearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
 }
 
-export function SearchBar({ value, onChangeText }: SearchBarProps) {
+function SearchBar({ value, onChangeText }: SearchBarProps) {
   const { colors } = useTheme();
   return (
     <View
@@ -55,3 +57,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default SearchBar;

@@ -1,11 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-
 import { StyleSheet } from "react-native";
-import HomeTab from "./tabs/HomeTab";
-import FavoritesTab from "./tabs/FavoritesTab";
+
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "../hooks/useTheme";
+
+import { useTheme } from "~/hooks";
+
+import FavoritesTab from "./tabs/FavoritesTab";
+import HomeTab from "./tabs/HomeTab";
 
 function MainScreen() {
   const Tab = createBottomTabNavigator();

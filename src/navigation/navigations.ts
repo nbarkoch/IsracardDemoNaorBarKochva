@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Book } from "../utils/types";
+
+import { Book } from "~/utils/types";
 
 export type RootStackParamList = {
   Main: undefined;

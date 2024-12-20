@@ -1,8 +1,7 @@
 import React from "react";
 
-import { useFavorites } from "../../hooks/useFavorites";
-
-import { BookList } from "../../components/BookList";
+import { BookList } from "~/components";
+import { useFavorites } from "~/hooks";
 
 const FavoritesTab = () => {
   const { favorites } = useFavorites();

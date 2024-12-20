@@ -1,10 +1,11 @@
 import React from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { HARRY_POTTER_BOOKS_API } from "../../utils/constants";
-import { Book } from "../../utils/types";
-import { fetchJsonData } from "../../utils/network";
-import { BookList } from "../../components/BookList";
+
+import { BookList } from "~/components";
+import { HARRY_POTTER_BOOKS_API } from "~/utils/constants";
+import { Book } from "~/utils/types";
+import { fetchJsonData } from "~/utils/network";
 
 const getHarryPotterBooks = async (): Promise<Book[]> => {
   return await fetchJsonData(HARRY_POTTER_BOOKS_API);

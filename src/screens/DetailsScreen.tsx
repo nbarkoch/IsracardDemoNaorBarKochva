@@ -10,7 +10,7 @@ import {
 
 import { RouteProp, useRoute } from "@react-navigation/native";
 
-import { ToggleFavoriteButton } from "~/components";
+import { ToggleFavoriteButton, ShareButton } from "~/components";
 import { useTheme } from "~/hooks";
 import { RootStackParamList } from "~/navigation/navigations";
 import { useTranslation } from "react-i18next";
@@ -68,7 +68,10 @@ function DetailsScreen() {
       <View style={[styles.detailsContainer, themedStyles.detailsContainer]}>
         <View style={styles.titleSection}>
           <Text style={[styles.title, themedStyles.title]}>{title}</Text>
-          <ToggleFavoriteButton book={book} />
+          <View style={styles.actionButtons}>
+            <ShareButton book={book} />
+            <ToggleFavoriteButton book={book} />
+          </View>
         </View>
         <View style={[styles.statsContainer, themedStyles.statsContainer]}>
           <StatsSection
@@ -132,6 +135,11 @@ const styles = StyleSheet.create({
   titleSection: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  actionButtons: {
+    flexDirection: "row",
+    gap: 8,
     alignItems: "center",
   },
 });

@@ -16,6 +16,7 @@ import {
 import BookCardView from "./BookCardView";
 import SearchBar from "./SearchBar";
 import SortControl from "./SortControl";
+import { useTranslation } from "react-i18next";
 
 interface BookListProps {
   data: Book[] | undefined;
@@ -35,6 +36,7 @@ function BookList({
   const [sortOption, setSortOption] = useState<SortingOption>("title");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   const { filteredData } = useSearch<Book>({
     searchInput,
@@ -89,9 +91,9 @@ function BookList({
   if (isError) {
     return (
       <View style={containerStyle}>
-        <Text style={styles.message}>Oops</Text>
-        <Text style={styles.message}>Something went wrong</Text>
-        <Text style={styles.smallMessage}>Try again later..</Text>
+        <Text style={styles.message}>{t("common.oops")}</Text>
+        <Text style={styles.message}>{t("common.error")}</Text>
+        <Text style={styles.smallMessage}>{t("common.tryAgain")}</Text>
       </View>
     );
   }
@@ -99,7 +101,7 @@ function BookList({
   if (!data || data.length === 0) {
     return (
       <View style={containerStyle}>
-        <Text style={styles.message}>No Books Are Currently Available</Text>
+        <Text style={styles.message}>{t("common.noBooks")}</Text>
       </View>
     );
   }

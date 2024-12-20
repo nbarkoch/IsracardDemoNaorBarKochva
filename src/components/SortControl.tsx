@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useTheme } from "~/hooks";
 import { SortingOption, SortDirection } from "~/utils/sortBookOption";
+import { useTranslation } from "react-i18next";
 
 interface SortControlProps {
   selectedOption: SortingOption;
@@ -13,11 +14,7 @@ interface SortControlProps {
   onDirectionChange: () => void;
 }
 
-const SORT_OPTIONS = [
-  { key: "title" as SortingOption, label: "Title" },
-  { key: "releaseDate" as SortingOption, label: "Date" },
-  { key: "pages" as SortingOption, label: "Pages" },
-];
+const SORT_OPTIONS: SortingOption[] = ["title", "releaseDate", "pages"];
 
 function SortControl({
   selectedOption,
@@ -26,11 +23,12 @@ function SortControl({
   onDirectionChange,
 }: SortControlProps) {
   const { colors } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       <View style={styles.chipGroup}>
-        {SORT_OPTIONS.map(({ key, label }) => (
+        {SORT_OPTIONS.map((key) => (
           <TouchableOpacity
             key={key}
             style={[
@@ -51,7 +49,7 @@ function SortControl({
                 },
               ]}
             >
-              {label}
+              {t(`sort.${key}`)}
             </Text>
             {selectedOption === key && (
               <Ionicons

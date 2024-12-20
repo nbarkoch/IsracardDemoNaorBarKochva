@@ -9,7 +9,7 @@ export const en = {
   },
   sort: {
     title: "Title",
-    date: "Date",
+    releaseDate: "Date",
     pages: "Pages",
   },
   bookDetails: {
